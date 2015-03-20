@@ -1,7 +1,7 @@
-<%= image_tag @photo.photo.url %>
-<div id="photo-caption">
-  <%= @photo.name %> by <%= @photo.user.username %>
-</div>
+<figure class="photo-display">
+  <%= image_tag @photo.photo.url %>
+  <figcaption id="photo-caption"><%= @photo.name %> by <%= @photo.user.username %></figcaption>
+</figure>
 
 <%= link_to "Delete", user_photo_path(@user, @photo), data: {confirm: "Are you sure?", method: "delete"} %>
 
@@ -10,21 +10,34 @@
   <div class="display-tags ">
     <ul class="list-unstyled list-inline">
       Tags:
-      <% @photo.tagged_users.each do |tagged_user| %>
-        <li><%= link_to tagged_user.username, user_path(tagged_user) %></li>
+      <% @photo.tags.each do |tag| %>
+        <li>
+          <%= link_to tag.tagged_user.username, user_path(tag.tagged_user) %>
+          <%= link_to "(x)", tag_path(tag), data: {method: "delete"} %>
+        </li>
       <% end %>
     </ul>
   </div>
 
-  <div class="add-tag">
-    <%= form_for @tag, class: "form form-horizontal form-inline" do |f| %>
-      <%= f.hidden_field :photo_id, value: @photo.id %>
-      <%= f.collection_check_boxes :user_id, @users, :id, :username do |cb|  %>
-        <% cb.label(class: "checkbox inline checkbox-inline") { cb.check_box(class: "checkbox") + cb.text } %>
-      <% end %>
+  <% if logged_in? %>
+    <div class="add-tag">
+      <%= form_for @tag, class: "form form-horizontal form-inline" do |f| %>
+        <%= f.hidden_field :photo_id, value: @photo.id %>
+        <%= f.collection_check_boxes :user_id, @users, :id, :username do |cb|  %>
+          <% cb.label(class: "checkbox inline checkbox-inline") { cb.check_box(class: "checkbox") + cb.text } %>
+        <% end %>
 
-      <%= f.submit value="Tag", class: "btn btn-xs btn-success" %>
-    <% end %>
-  </div>
+        <%= f.submit value="Tag", class: "btn btn-xs btn-success" %>
+      <% end %>
+    </div>
+  <% end %>
 
 </div>
+
+<script type="text/javascript">
+  $(".photo-display").hover(function() {
+    $(this).addClass("overlay");
+  }, function() {
+    $(this).removeClass("overlay");
+  });
+</script>
