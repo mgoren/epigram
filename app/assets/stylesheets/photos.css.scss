@@ -1,14 +1,10 @@
 .tagged-users{
   margin-top: 20px;
 }
-#photo-caption {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .checkbox {
   display: inline;
+  margin-right: 10px;
 }
 
 .add-tag .btn {
@@ -17,12 +13,48 @@
 
 .photo-display {
   max-width: 800px;
+  position: relative;
 }
 
 .photo-display img {
   max-width: 800px;
 }
 
+#photo-caption {
+  display: none;
+
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+
+  position: absolute;
+  bottom: 0;
+  background-color: #000;
+  color: #fff;
+  opacity: 0.5;
+  left:0;   /** new  **/
+  right:0;  /** new  **/
+  filter: alpha(opacity=50);
+}
+
+.delete-photo {
+  display: none;
+  position:absolute;
+  top:0;
+  right:0;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.delete-photo:hover {
+  text-decoration: inherit;
+}
+
 .overlay {
-  
+  .delete-photo, #photo-caption {
+    display: block;
+  }
 }
