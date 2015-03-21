@@ -24,7 +24,7 @@
     <% @photos.each do |photo| %>
       <div class="photo-box">
         <figure>
-          <%= link_to image_tag(photo.photo.url), user_photo_path(@user, photo)  %>
+          <%= link_to image_tag(photo.photo.url), user_photo_path(@user, photo), id: "photo_#{photo.id}"  %>
           <figcaption><%= photo.name %></figcaption>
         </figure>
       </div>
