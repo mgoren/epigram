@@ -20,18 +20,38 @@ describe 'the add user process' do
 
 end
 
-describe 'the list users process' do
+describe 'user sessions' do 
+    it 'signs a user in on creation' do 
+      go_home
+      create_a_new_user
+      expect(page).to have_content 'Logout'
+    end
 
-  it 'lists users with working links on home page' do
-    go_home
-    create_a_new_user
-    go_home
-    user = User.first
-    find("#user-link-#{user.id}").click
-    expect(page).to have_content 'testuser1'
-  end
+    it 'logs a user in and out' do 
+      go_home
+      create_a_new_user
+      logout
+      expect(page).to have_content 'Register'
 
+      login
+      expect(page).to have_content 'testuser1'
+    end
+
+
+    it 'has flash messages' do 
+      go_home
+      create_a_new_user
+      expect(page).to have_content 'Registered successfully!'
+
+      logout
+      expect(page).to have_content 'Successfully logged out.'
+
+      login
+      expect(page).to have_content  'Successfully logged in'
+    end
 end
+
+
 
 def create_a_new_user
   click_on 'Register'
